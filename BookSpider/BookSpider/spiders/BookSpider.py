@@ -4,8 +4,8 @@ import uuid
 from BookSpider.items import BookspiderItem
 # 爬取书籍详情
 
-class bookDescSpider(scrapy.Spider):
-    name = "book_desc" # 蜘蛛名，执行时需要 scrapy crawl book_desc
+class BookSpider(scrapy.Spider):
+    name = "book" # 蜘蛛名，执行时需要 scrapy crawl book_desc
     allowed_domains = ["www.booktxt.net"]
     start_urls = ["https://www.booktxt.net/1_1589/"]
 
