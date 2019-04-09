@@ -20,16 +20,18 @@ FEED_EXPORT_ENCODING = 'utf-8'
 IMAGES_STORE = 'E:\\www\\suibiankan\\suibiankan-backend\\public\\upload\\book_cover'
 #启动图片下载中间件
 ITEM_PIPELINES = {
-   'BookSpider.pipelines.BookspiderPipeline': 300, # 下载图片
-   'BookSpider.MySQLPipeline.MySQLPipeline': 1, # 操作数据库
+   'BookSpider.ImagePipelines.ImagePipeline': 1, # 下载图片
+   'BookSpider.MySQLPipeline.MySQLPipeline': 2, # 操作数据库
    #格式为：'项目名.文件名.类名'：优先级（越小越大）
 }
+#IMAGES_MIN_HEIGHT = 150 # 最小高度
+#IMAGES_MIN_WIDTH = 120 # 最小宽度
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'BookSpider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False #改成false , 不遵守该网站的robots规则
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -43,7 +45,9 @@ ROBOTSTXT_OBEY = True
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+# COOKIES_ENABLED = True #开启cookie
+
+# RETRY_ENABLED = False #禁止重试,加快效率
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -62,9 +66,11 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'BookSpider.middlewares.BookspiderDownloaderMiddleware': 543,
-#}
+#开启中间件
+DOWNLOADER_MIDDLEWARES = {
+    'BookSpider.middlewares.RandomUser': 543,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -91,6 +97,8 @@ AUTOTHROTTLE_MAX_DELAY = 60
 AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
 #AUTOTHROTTLE_DEBUG = False
+
+LOG_LEVEL = 'ERROR'
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
